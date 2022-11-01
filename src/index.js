@@ -18,9 +18,9 @@ function searchCountry(evt) {
         return clearSearch();
     }
 
-    fetchCountries()
+    fetchCountries(country)
         .then(countries => {
-            clearSearch();
+          clearSearch();
             if (countries.length > 10) {
                 Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
             } else if(countries.length > 2 && countries.length < 10) {
@@ -45,7 +45,7 @@ function renderMarkupOfCountries(array) {
 }
 
 function renderCountry(array) {
-    const markup = array.map(({ flags, name, capital, population, language }) => {
+    const markup = array.map(({ flags, name, capital, population, languages }) => {
         `    <div class="country-card">
       <img class="country-card__img" src="${flags.svg}" alt="" />
       <p class="country-card__name">${name}</p>
