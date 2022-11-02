@@ -5,7 +5,7 @@ import Notiflix from 'notiflix';
 
 const DEBOUNCE_DELAY = 300;
 
-const searchInput = document.querySelector('input#search-box');
+const searchInput = document.querySelector('#search-box');
 const countriesList = document.querySelector('.country-list');
 const countryInfo = document.querySelector('.country-info');
 
@@ -13,21 +13,21 @@ searchInput.addEventListener("input", debounce(searchCountry, DEBOUNCE_DELAY));
 
 function searchCountry(evt) {
   evt.preventDefault();
-    const countryInp = searchInput.value.trim();
+    const countryInp = evt.target.value.trim().toLowerCase();
     // clearSearch();
-    if (!countryInp) {
+    if (countryInp.length === 0) {
         return clearSearch();
     };
 
     fetchCountries(countryInp)
         .then(country => {
-          clearSearch();
-            if (country.length > 10) {
-              return Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
-            } else if(country.length > 2 && country.length < 10) {
+          clearSearch()
+          if (country.length === 1) {
+              return renderCountry(country);
+            } else if(country.length >= 2 && country.length <= 10) {
                 return renderMarkupOfCountries(country);
-            } else if (country.length === 1) {
-                return renderCountry(country);
+            } else if (country.length > 10) {
+                return Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
             }
         }).catch(err => {
           // clearSearch();
@@ -38,21 +38,20 @@ function searchCountry(evt) {
 function renderMarkupOfCountries(country) {
   console.log(country);
   const markup = country
-    .map(({ flags, name }) => 
-      `<li> 
-        <img src="${flags.svg}" alt="${name}" />
-        <h2>${name.official}</h2>
-        </li>`).join('');
-    countriesList.innerHTML = markup;
+    .map(
+      ({ flags, name }) =>
+      `<li class="country-list__item">
+      <img class="country-list__img" src="${flags.svg}" alt="flags" width="30" height="26">
+      <h2 class="country-list__name">${name.official}</h2>
+      </li>`
+    )
+    .join('');
+  countriesList.innerHTML = markup;
 }
 
-
-console.log(renderMarkupOfCountries());
-
-function renderCountry(array) {
-    const markup = array.map(({ flags, name, capital, population, languages }) => {
-      `<div class="country-card">
-      <img class="country-card__img" src="${flags.svg}" alt="" />
+function renderCountry([{ name, capital, population, flags, languages }]) {
+  const markup =  `<div class="country-card">
+      <img class="country-card__img" width="30" height="26" src="${flags.svg}" alt="" />
       <p class="country-card__name">${name.official}</p>
       </div>
       <div>
@@ -69,9 +68,8 @@ function renderCountry(array) {
         <p class="text">Languages:
           <span class="span">${Object.values(languages)}</span>
         </p>
-      </div>`
-    }).join("");
-    countryInfo.innerHTML = markup;
+      </div>`;
+  countryInfo.innerHTML = markup;
 }
 
 function clearSearch() {

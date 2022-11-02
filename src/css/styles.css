@@ -18,3 +18,57 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+
+.country-list {
+  list-style: none;
+  padding: 0;
+  margin-left: 15px;
+
+}
+
+.country-list__item {
+  display: flex;
+  margin: 5px;
+}
+
+.country-list__img {
+  display: block;
+  margin-right: 5px;
+}
+
+.country-list__name {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.country-card {
+  display: flex;
+  align-items: baseline;
+}
+
+.country-card__img {
+  display: block;
+  margin-right: 15px;
+}
+
+.country-card__name {
+  margin: 0 0 15 0;
+  /* margin-bottom: 15px; */
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.text {
+  margin: 0 0 10 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+.span {
+  font-weight: 400;
+}
+
+
+
